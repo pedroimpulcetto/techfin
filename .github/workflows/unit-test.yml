@@ -1,0 +1,23 @@
+name: PR-unittest
+on: [pull_request]  
+
+jobs:
+  unitest:
+    name: 'automate test'
+    runs-on: ubuntu-18.04
+    strategy:
+      matrix:
+        python-version: [3.8]
+    steps:
+    - uses: actions/checkout@v2
+    - name: Config Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: ${{ matrix.python-version }}
+    - name: dependecies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    - name: unit test
+      run: python -m pytest -s test/
+      
